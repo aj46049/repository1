@@ -1,0 +1,35 @@
+version: 0.2
+
+# Set an environent variable that can be used below in the build phase.
+
+env:
+  variables:
+    TEST_VAR: "t2.micro"
+phase:
+  install:
+    commands:
+      - echo Entered the install phase
+      - apt-get update -y
+      - echo $TEST_VAR
+      - echo $AWS_REGION
+    finally:
+      - echo this always runs even if the update or install command fails
+  pre_build:
+    command:
+      - echo Entered the pre_build phase...
+    finally:
+      - echo this always runs even if the login command fails
+  build:
+    command:
+      - ls -altr
+      - printenv
+      - echo entered  the build phase...
+      - echo build started on 'date'
+      - aws s3 ls 
+      - touch new.py
+    finally:
+      - echo this is always runs even if the install command fails 
+  post_build:
+    command:
+      - echo Entered the post_build phase...
+      - echo build completed on 'date'
