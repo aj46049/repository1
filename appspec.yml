@@ -1,0 +1,29 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+hooks:
+  Applicationstop:
+    - location: scripts/stop_server.sh
+      timeout: 300
+      runas: root
+
+  BeforeInstall:
+    - location: scripts/install_dependancies.sh
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStartL:
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: root
+
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 300          
